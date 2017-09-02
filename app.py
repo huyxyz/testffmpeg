@@ -1,4 +1,6 @@
 import bottle
+import re
+import datetime
 from bottle import route, run, template, static_file, request
 import subprocess
 
@@ -12,21 +14,33 @@ def server_static(filepath):
 def home():
  return template('./static/index.html') 
 
-def makeVideo(image, audio):
- cmd = ["./run", image, audio]
+def makeVideo(key, audio):
+ key = key + "%03d.png"
+ cmd = ["./run", key, audio]
  p = subprocess.Popen(cmd, stdout = subprocess.PIPE, stderr = subprocess.PIPE, stdin = subprocess.PIPE)
  out, err = p.communicate()
  return out
 
 @application.route('/upload', method=['POST'])
 def upload():
- upload = request.files.get('upload')
- file_path = "upload/{file}".format(file = upload.filename)
- upload.save(file_path)
+ upload1 = request.files.get('upload1')
+ upload2 = request.files.get('upload2')
+ upload3 = request.files.get('upload3')
+ audio = request.forms.get('audio')
+ key = "abc"
+ key = str(datetime.datetime.now())
+ key = re.sub(r"[^\w\s]", '', key)  
+ key = re.sub(r"\s+", '', key)
+ file1 = "upload/{file}".format(file = key + "001.png")
+ file2 = "upload/{file}".format(file = key + "002.png")
+ file3 = "upload/{file}".format(file = key + "003.png")
+ upload1.save(file1)
+ upload2.save(file2)
+ upload3.save(file3)
  print "1. upload finished!" 
- makeVideo(upload.filename, "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3")
+ makeVideo(key, audio) 
  print "2. video generated!"
- return "Your video file: </br><a href='/upload/out_" + upload.filename +".mp4'>" + upload.filename + ".mp4</a>"
+ return "Your video file: </br><a href='/upload/out_" + key +".mp4'>" + key  + ".mp4</a>"
 
 
 if __name__ == "__main__":

@@ -1,5 +1,9 @@
 #!/bin/bash
 echo "start script\n"
-ffmpeg -loop 1 -i ./upload/$1 -i $2 -c:v libx264 -t 9 -pix_fmt yuv420p ./upload/out_$1.mp4
+ffmpeg \
+-loop 1 -t 5 -i ./upload/$1001.png \
+-loop 1 -t 5 -i ./upload/$1002.png \
+-loop 1 -t 5 -i ./upload/$1003.png \
+-i $2 -vcodec libx264 -crf 25 -pix_fmt yuv420p ./upload/out_$1.mp4
 echo "end script"
 
