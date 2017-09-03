@@ -14,10 +14,10 @@ def server_static(filepath):
 def home():
  return template('./static/index.html') 
 
-def makeVideo(key, audio):
+def makeVideo(key, audio, fr):
  key = key + "%03d.png"
- cmd = ["./run", key, audio]
- p = subprocess.Popen(cmd, stdout = subprocess.PIPE, stderr = subprocess.PIPE, stdin = subprocess.PIPE)
+ cmd = ["./run", key, audio, 0.1]
+ p = subprocess.Popen(cmd, shell = True, stdout = subprocess.PIPE, stderr = subprocess.PIPE, stdin = subprocess.PIPE)
  out, err = p.communicate()
  return out
 
@@ -27,7 +27,7 @@ def upload():
  upload2 = request.files.get('upload2')
  upload3 = request.files.get('upload3')
  audio = request.forms.get('audio')
- key = "abc"
+ time = request.forms.get('time')
  key = str(datetime.datetime.now())
  key = re.sub(r"[^\w\s]", '', key)  
  key = re.sub(r"\s+", '', key)
@@ -37,9 +37,11 @@ def upload():
  upload1.save(file1)
  upload2.save(file2)
  upload3.save(file3)
- print "1. upload finished!" 
- makeVideo(key, audio) 
- print "2. video generated!"
+ print "1. upload finished!"
+ print "2. generating video..."
+ t = int(time)/3
+ makeVideo(key, audio, 0.1) 
+ print "3. video generated!"
  return "Your video file: </br><a href='/upload/out_" + key +".mp4'>" + key  + ".mp4</a>"
 
 

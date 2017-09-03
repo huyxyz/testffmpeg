@@ -9,6 +9,7 @@
   <p><input type="file" name="upload2" /></p>
   <p><input type="file" name="upload3" /></p>
   <p><input id="eAudioUrl"  type="hidden" name="audio"  value="" /></p>
+  <p><input id="eTime" type="hidden" name="time" value=""/></p>
   <p>Step2: Add background music</p>
   <p><input id="txtKeyword" type="text" onkeydown="if (event.keyCode == 13) return false;"/><input id="btnSearch" type="button" value="search">
   <ul id="lresult">
@@ -53,6 +54,7 @@ $(document).ready(function(){
     item = items[id.value];
     $("#song").html("You select: " + item.artistName + " - " + item.trackName);
     $("#eAudioUrl").val(item.previewUrl);
+    $("#eTime").val(29)
   });
 
 

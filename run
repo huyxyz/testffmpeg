@@ -1,5 +1,5 @@
 #!/bin/bash
 echo "start script\n"
-ffmpeg -framerate 1/10 -i ./upload/$1%03d.png -i $2 -c:v libx264 -pix_fmt yuv420p -shortest  out_$1.mp4
+ffmpeg -framerate "$3" -i ./upload/$1%03d.png -i $2 -c:v libx264 -pix_fmt yuv420p -shortest ./upload/out_$1.mp4
 echo "end script"
 
