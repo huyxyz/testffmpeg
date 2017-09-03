@@ -15,11 +15,9 @@ def home():
  return template('./static/index.html') 
 
 def makeVideo(key, audio, fr):
- key = key + "%03d.png"
- cmd = ["./run", key, audio, 0.1]
- p = subprocess.Popen(cmd, shell = True, stdout = subprocess.PIPE, stderr = subprocess.PIPE, stdin = subprocess.PIPE)
- out, err = p.communicate()
- return out
+ cmd = "ffmpeg -framerate {fr} -i ./upload/{key}%03d.png -i {audio} -c:v libx264 -pix_fmt yuv420p -shortest ./upload/out_{key}.mp4".format(fr = fr , key = key, audio = audio)
+ p = subprocess.call(cmd, shell=True)
+ return 1
 
 @application.route('/upload', method=['POST'])
 def upload():
@@ -39,7 +37,6 @@ def upload():
  upload3.save(file3)
  print "1. upload finished!"
  print "2. generating video..."
- t = int(time)/3
  makeVideo(key, audio, 0.1) 
  print "3. video generated!"
  return "Your video file: </br><a href='/upload/out_" + key +".mp4'>" + key  + ".mp4</a>"
