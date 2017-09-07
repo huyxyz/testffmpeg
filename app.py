@@ -16,12 +16,12 @@ def home():
  return template('./static/index.html') 
 
 def makeVideo(key, audio, fr):
- cmd = "ffmpeg -framerate {fr} -i ./upload/{key}/{key}%03d.png -i {audio} -c:v libx264 -pix_fmt yuv420p -shortest ./upload/{key}/out_{key}.mp4".format(fr = fr , key = key, audio = audio)
+ cmd = "ffmpeg -framerate {fr} -vcodec mjpeg -i ./upload/{key}/{key}%03d.jpg -i {audio} -c:v libx264 -pix_fmt yuv420p -shortest ./upload/{key}/out_{key}.mp4".format(fr = fr , key = key, audio = audio)
  p = subprocess.call(cmd, shell=True)
  return 1
 
 def convertImg(key):
- cmd = "ls | grep '.data' | xargs -n 1 bash -c 'convert \"$0\" \"${0%.*}.png\"'"
+ cmd = "ls | grep '.data' | xargs -n 1 bash -c 'convert \"$0\" \"${0%.*}.jpg\"'"
  p = subprocess.call(cmd, shell=True, cwd="./upload/{dir}".format(dir = key))
  return 1
 
