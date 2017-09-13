@@ -11,6 +11,10 @@ application = bottle.app()
 def server_static(filepath):
     return static_file(filepath, root='./upload')
 
+@route('<filepath:path>')
+def server_static(filepath):
+    return static_file(filepath, root='./static')
+
 @application.route('/', method=['GET'])
 def home():
  return template('./static/index.html') 
@@ -21,15 +25,15 @@ def makeVideo(key, audio, fr):
  return 1
 
 def convertImg(key):
- cmd = "ls | grep '.data' | xargs -n 1 bash -c 'convert \"$0\" \"${0%.*}.jpg\"'"
+ cmd = "ls | grep '.data' | xargs -n 1 bash -c 'convert -resize 50% \"$0\" \"${0%.*}.jpg\"'"
  p = subprocess.call(cmd, shell=True, cwd="./upload/{dir}".format(dir = key))
  return 1
 
 @application.route('/upload', method=['POST'])
 def upload():
- upload1 = request.files.get('upload1')
- upload2 = request.files.get('upload2')
- upload3 = request.files.get('upload3')
+ files = request.files.getall('fileselect')
+
+
  audio = request.forms.get('audio')
  time = request.forms.get('time')
  key = str(datetime.datetime.now())
@@ -38,17 +42,15 @@ def upload():
  dir = "./upload/{d}".format(d = key)
  if not os.path.exists(dir):
   os.makedirs(dir)
- file1 = "{path}/{file}".format(path = dir, file = key + "001.data")
- file2 = "{path}/{file}".format(path = dir, file = key + "002.data")
- file3 = "{path}/{file}".format(path = dir, file = key + "003.data")
- upload1.save(file1)
- upload2.save(file2)
- upload3.save(file3)
+ count = len(files)
+ for f in range(0, count):
+  filename = "{path}/{file}".format(path = dir, file = key + "00" + str(f + 1) + ".data")
+  files[f].save(filename)
  print "1. upload finished!"
  print "2. converting images..."
  convertImg(key)
  print "3. generating video..."
- makeVideo(key, audio, 0.11) 
+ makeVideo(key, audio, count / 30.0) 
  print "3. video generated!"
  return "Your video file: </br><a href='/upload/" + key + "/out_" + key +".mp4'>" + key  + ".mp4</a>"
 
