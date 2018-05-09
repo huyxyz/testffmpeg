@@ -1,1 +1,4 @@
 # testffmpeg
+
+https://superuser.com/questions/833232/create-video-with-5-images-with-fadein-out-effect-in-ffmpeg/834035#834035
+https://stackoverflow.com/questions/43958438/merge-videos-and-images-using-ffmpeg
