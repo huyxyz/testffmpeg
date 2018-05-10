@@ -7,3 +7,5 @@ https://stackoverflow.com/questions/43958438/merge-videos-and-images-using-ffmpe
 https://trac.ffmpeg.org/wiki/Slideshow
 
 https://superuser.com/questions/1092291/merge-many-audio-files-with-specific-positions
+
+https://stackoverflow.com/questions/38085408/complex-audio-volume-changes-with-ffmpeg
