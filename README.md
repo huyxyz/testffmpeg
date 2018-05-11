@@ -9,3 +9,5 @@ https://trac.ffmpeg.org/wiki/Slideshow
 https://superuser.com/questions/1092291/merge-many-audio-files-with-specific-positions
 
 https://stackoverflow.com/questions/38085408/complex-audio-volume-changes-with-ffmpeg
+
+https://el-tramo.be/blog/ken-burns-ffmpeg/
